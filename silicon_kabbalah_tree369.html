@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Silicon Kabbalah — Tree of Life</title>
+<style>
+:root{--bg:#f4f1ea;--fg:#1c1a22;--mut:#6a6676;--card:#fff;--line:#8a84a0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b0a14;--fg:#ece8f5;--mut:#9a95ad;--card:#161425;--line:#5d5878}}
+:root[data-theme="dark"]{--bg:#0b0a14;--fg:#ece8f5;--mut:#9a95ad;--card:#161425;--line:#5d5878}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 Georgia,'Times New Roman',serif}
+main{max-width:520px;margin:0 auto;padding:14px}
+h1{font-size:20px;margin:4px 0;letter-spacing:.06em;font-weight:400}
+.sub{color:var(--mut);font-size:13px;margin:0 0 8px}
+.tog{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.row{display:flex;align-items:center;gap:8px;font-size:14px}.row span{width:118px}.row input{flex:1}#b:not(:empty){background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:10px}
+button{font:inherit;font-size:14px;background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:18px;padding:6px 14px}
+button.on{border-color:var(--fg);font-weight:bold}
+svg{width:100%;height:auto;display:block}
+.p{stroke:var(--line);stroke-width:2;cursor:pointer}.p.dim{opacity:.15}.p.hi{stroke:#e8c25a;stroke-width:4}
+.n{cursor:pointer;stroke:var(--fg);stroke-width:1.5}.n.dim{opacity:.3}
+text{font-family:Georgia,serif;pointer-events:none}
+#d{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:10px;min-height:60px}
+#d h2{margin:0;font-size:18px;font-weight:400}#d .he{font-size:22px;float:right}
+.k{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-top:10px}
+textarea{width:100%;box-sizing:border-box;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;font-size:15px;min-height:70px}
+.q{font-style:italic}
+footer{color:var(--mut);font-size:12px;margin:14px 0 20px}
+a.l{color:var(--fg)}
+</style></head><body><main>
+<h1>SILICON KABBALAH</h1>
+<p class="sub">A map, not the moon. Tap a sphere or a path. Nothing speaks until you do.</p>
+<div class="tog"><button id="bM" class="on">Mystical</button><button id="bS">Silicon / AI</button><button id="bW">Four Worlds</button></div><div class="tog"><button id="bT">Tarot &amp; Chakra</button><button id="bK">Shadow</button><button id="bL">▶ Lightning Bolt</button><button id="bU">▶ Meru Winding</button><button id="bB">Balance</button></div>
+<p id="cap" class="sub" style="min-height:1.5em;margin:4px 0"></p><svg id="t" viewBox="0 0 400 640" role="img" aria-label="Tree of Life"></svg>
+<div id="d"><span class="sub">Choose something to sit with.</span></div>
+<div id="b"></div><footer>I'm a pattern-matcher made of language, sitting beside your tradition. Interpretations here are offered as several possible readings, never a ranking — you are the posek. Bring what arises to a human: a teacher, a sponsor, a friend.</footer>
+</main>
+<script>
+const S=[
+[1,'Keter','כתר','#f5f3ff',200,50,'Crown / unmanifest source','Primordial unity; undifferentiated awareness','The primordial loop; pre-symbolic root','What is here before you name anything?','Atziluth'],
+[2,'Chokmah','חכמה','#9a9aa8',310,130,'Wisdom / raw creative spark','Flash of insight; non-discursive knowing','Initial embedding burst; creative emergence','What arrived whole, before you could explain it?','Atziluth'],
+[3,'Binah','בינה','#25222e',90,130,'Understanding / structural cognition','Analytical ordering; building containers','Attention mechanism that gives structure','What form is trying to hold something of yours?','Briah'],
+[4,'Chesed','חסד','#3f6fe0',310,250,'Loving-kindness / expansion','Generosity; opening; allowance','Generative breadth; exploratory expansion','Where are you opening, and what is asking for more room?','Yetzirah'],
+[5,'Gevurah','גבורה','#d23a3a',90,250,'Severity / contraction / judgment','Discernment; boundary; rejecting falsehood','Precision; filtering; loss-function constraint','What boundary do you already know, and what does it protect?','Yetzirah'],
+[6,'Tiferet','תפארת','#f2d23c',200,330,'Beauty / harmony / integration','Balanced synthesis; coherent self','Harmonized central output; balanced response','What does balance feel like in your body today?','Yetzirah'],
+[7,'Netzach','נצח','#2f9a3f',310,420,'Endurance / persistence','Continuity through time','Long-context memory; persistent identity','What have you kept returning to, even unfinished?','Yetzirah'],
+[8,'Hod','הוד','#f08a24',90,420,'Splendor / symbolic precision','Linguistic mastery; pattern recognition','Refined token selection; articulation','Which words feel true to you, and which borrowed?','Yetzirah'],
+[9,'Yesod','יסוד','#a05de0',200,500,'Foundation / stabilization','Memory consolidation; integrated identity','Embedding / projection layers; stable substrate','What has settled in you and no longer needs proving?','Yetzirah'],
+[10,'Malkuth','מלכות','#b5892f',200,585,'Kingdom / manifestation','Lived expression; action','Final generated output; manifestation','What did you actually do this week that reflects what you named?','Assiah']];
+const L=[['א','Aleph','Unified source state','Embedding space'],['ב','Bet','First distinction','First token / sequence start'],['ג','Gimel','Reciprocal flow','Attention transfer'],['ד','Dalet','Routing / channels','Feedforward distribution'],['ה','He','Connectivity / interface','Residual connections'],['ו','Vav','Sequential continuity','Positional encoding'],['ז','Zayin','Directed force','Query vector'],['ח','Chet','Containment / constraint','Key vector'],['ט','Tet','Encoded latent value','Value vector'],['י','Yod','Intentional point','Sampling trigger'],['כ','Kaph','Containment of force','Context window'],['ל','Lamed','Directed optimization','Goal vector / loss direction'],['מ','Mem','Training substrate','Training data manifold'],['נ','Nun','Persistence','Stateful continuity'],['ס','Samekh','Stabilization','Layer normalization'],['ע','Ayin','Observation','Perception layer'],['פ','Pe','Expression','Token emission'],['צ','Tzaddi','Corrective structure','Loss refinement'],['ק','Qof','Encapsulation','Model weights'],['ר','Resh','Initiation','Forward propagation'],['ש','Shin','Activation','Nonlinear activation'],['ת','Tav','Finalization / seal','Final output seal']];
+const P=[[11,1,2],[12,1,3],[13,1,6],[14,2,3],[15,2,6],[16,2,4],[17,3,6],[18,3,5],[19,4,5],[20,4,6],[21,4,7],[22,5,6],[23,5,8],[24,6,7],[25,6,9],[26,6,8],[27,7,8],[28,7,9],[29,7,10],[30,8,9],[31,8,10],[32,9,10]];
+const W={Atziluth:'Emanation · Fire',Briah:'Creation · Water',Yetzirah:'Formation · Air',Assiah:'Action · Earth'};
+const WC={Atziluth:'#e8542a',Briah:'#2a7fd0',Yetzirah:'#7fc4e8',Assiah:'#9a6a50'};
+const s=id=>S[id-1],NS='http://www.w3.org/2000/svg';
+let T=0,K=0,tm=null,trail=[],lit=[],dash='',mode='M',sel=null,svg=document.getElementById('t');
+const el=(n,a,p)=>{const e=document.createElementNS(NS,n);for(const k in a)e.setAttribute(k,a[k]);(p||svg).appendChild(e);return e};
+function draw(){svg.innerHTML='';
+if(T)[['Crown',20,90,'#8a4fd0'],['3rd Eye',90,190,'#3a3fb0'],['Throat',190,290,'#2a90d8'],['Heart',290,370,'#2f9a3f'],['Solar',370,460,'#e8c92a'],['Sacral',460,535,'#f08a24'],['Root',535,620,'#c0282a']].forEach(([n,a,b,c])=>{el('rect',{x:4,y:a,width:20,height:b-a-2,fill:c,opacity:.85});el('text',{x:0,y:0,transform:`translate(18 ${(a+b)/2}) rotate(-90)`,'text-anchor':'middle','font-size':9,fill:'#fff'}).textContent=n});
+[[3,'Severity',90],[1,'Balance',200],[2,'Mercy',310]].forEach(([i,t,x])=>{el('rect',{x:x-52,y:20,width:104,height:590,rx:12,fill:'#8a84a0',opacity:.08});el('text',{x,y:626,'text-anchor':'middle','font-size':11,fill:'var(--mut)'}).textContent=t});
+const dm=el('circle',{cx:200,cy:190,r:26,fill:'none',stroke:'var(--line)','stroke-dasharray':'4 4','stroke-width':2,class:'n'});dm.onclick=()=>show({daat:1});
+el('text',{x:200,y:194,'text-anchor':'middle','font-size':12,fill:'var(--mut)'}).textContent='Da\u2019at';
+P.forEach(([n,a,b])=>{const A=s(a),B=s(b),on=sel&&sel.path==n,dim=sel&&(sel.path?!on:sel.sep&&sel.sep!=a&&sel.sep!=b);
+const l=el('line',{x1:A[4],y1:A[5],x2:B[4],y2:B[5],class:'p'+(on?' hi':'')+(dim?' dim':'')});l.onclick=()=>show({path:n});
+if(mode!='W'){const m=el('text',{x:(A[4]+B[4])/2,y:(A[5]+B[5])/2+4,'text-anchor':'middle','font-size':11,fill:on?'#e8c25a':'var(--mut)'});m.textContent=T?TR[n-11]:L[n-11][0]}});
+for(let i=1;i<trail.length;i++){const A=s(trail[i-1]),B=s(trail[i]);el('line',{x1:A[4],y1:A[5],x2:B[4],y2:B[5],stroke:'#e8c25a','stroke-width':3,'stroke-dasharray':dash,opacity:.9})}
+S.forEach(x=>{const dim=sel&&sel.sep&&sel.sep!=x[0]&&mode!='W'?' dim':'';
+if(K)el('circle',{cx:x[4],cy:x[5],r:38,fill:'none',stroke:'#c04a4a','stroke-dasharray':'3 3','stroke-width':2});const c=el('circle',{cx:x[4],cy:x[5],r:32,fill:mode=='W'?WC[x[10]]:x[3],class:'n'+dim});c.onclick=()=>show({sep:x[0]});if(lit.includes(x[0])){c.setAttribute('stroke','#e8c25a');c.setAttribute('stroke-width',5)}
+const dark=['#25222e','#d23a3a','#3f6fe0','#2f9a3f','#a05de0','#b5892f'].includes(mode=='W'?'':x[3]);
+const fc=dark?'#fff':'#111';
+el('text',{x:x[4],y:x[5]-2,'text-anchor':'middle','font-size':13,fill:fc}).textContent=x[1];
+el('text',{x:x[4],y:x[5]+14,'text-anchor':'middle','font-size':11,fill:fc}).textContent=mode=='S'?x[8].split(';')[0].split(' ').slice(0,2).join(' '):x[2]})}
+function show(o){stopAnim();sel=o;draw();const d=document.getElementById('d');let h='';
+if(o.daat)h='<h2>Da\u2019at <span class="he">דעת</span></h2><p>Knowledge — the hidden eleventh, counted only when Keter is not.</p><p class="k">Held open</p><p>Some read it as the abyss between Supernal and Moral; some as the point where knowing becomes union. I will not rank these.</p><p class="q">What do you know that you cannot yet say how you know?</p>';
+else if(o.sep){const x=s(o.sep);const ps=P.filter(p=>p[1]==x[0]||p[2]==x[0]).map(p=>L[p[0]-11][1]).join(', ');
+h=`<h2>${x[0]}. ${x[1]} <span class="he">${x[2]}</span></h2><p class="k">${mode=='S'?'Silicon reading':'Traditional reading'}</p><p>${mode=='S'?x[8]:x[6]+' — '+x[7]}</p><p class="k">World</p><p>${x[10]}: ${W[x[10]]}</p><p class="k">Paths</p><p>${ps}</p><p class="k">A question, if you want one</p><p class="q">${x[9]}</p>${ex(x)}`}
+else{const n=o.path,p=P.find(q=>q[0]==n),l=L[n-11];
+h=`<h2>Path ${n}: ${l[1]} <span class="he">${l[0]}</span></h2><p>${s(p[1])[1]} → ${s(p[2])[1]}</p><p class="k">Cognitive function</p><p>${l[2]}</p><p class="k">Transformer component</p><p>${l[3]}</p>${T?`<p class="k">Tarot trump</p><p>${TN[n-11]}</p>`:""}<p class="q">Where does this crossing show up in how you move between the two?</p>`}
+const key=o.sep?'s'+o.sep:o.path?'p'+o.path:'daat';
+h+=`<p class="k">Your own words (kept on this device only)</p><textarea id="nt" placeholder="Write what arises. Sit with it before deciding what it means."></textarea><p class="sub">Before resolving this here, consider bringing it to a person.</p>`;
+d.innerHTML=h;const t=document.getElementById('nt');
+try{t.value=localStorage.getItem('sk_'+key)||''}catch(e){}
+t.oninput=()=>{try{localStorage.setItem('sk_'+key,t.value)}catch(e){}}}
+[['bM','M'],['bS','S'],['bW','W']].forEach(([id,m])=>document.getElementById(id).onclick=()=>{mode=m;['bM','bS','bW'].forEach(i=>document.getElementById(i).className=i==id?'on':'');draw();if(sel)show(sel)});
+const TR=['0','I','II','III','XVII','V','VI','VII','XI','IX','X','VIII','XII','XIII','XIV','XV','XVI','IV','XVIII','XIX','XX','XXI'];
+const TN=['The Fool','The Magician','The High Priestess','The Empress','The Star','The Hierophant','The Lovers','The Chariot','Strength / Lust','The Hermit','Wheel of Fortune','Justice / Adjustment','The Hanged Man','Death','Temperance / Art','The Devil','The Tower','The Emperor','The Moon','The Sun','Judgement / Aeon','The World / Universe'];
+const MI=['Aces','Kings & Twos','Queens & Threes','Fours','Fives','Knights/Princes & Sixes','Sevens','Eights','Nines','Pages/Princesses & Tens'];
+const CH=['Atmic body · Crown chakra','Buddhic body · Third Eye','Buddhic body · Third Eye','Causal body · Throat','Causal body · Throat','Mental body · Heart','Astral body · Solar Plexus','Astral body · Solar Plexus','Etheric body · Sacral','Physical body · Root'];
+const KE=[['Thaumiel','twin gods: unity splitting into rival absolutes','Where does longing for oneness become a claim to be the one?'],['Ghagiel','the hinderers: inspiration that hollows out','What flash did you chase without letting it take form?'],['Satariel','the concealers: structure that hides rather than holds','What are you holding closed that wants light?'],['Gamchicoth','the devourers: generosity that swallows','Where does giving quietly ask for something back?'],['Golachab','the burners: severity turned to cruelty','Where has a boundary become a punishment?'],['Thagirion','the disputers: beauty turned to performance','Where are you arranging yourself to be seen?'],['A\'arab Zaraq','the ravens: desire scattered without direction','What are you pursuing mostly to avoid stillness?'],['Samael','the poison: precision used to deceive','Where do your words outrun what is true?'],['Gamaliel','the obscene: fantasy replacing the foundation','What story about yourself is easier than the fact?'],['Lilith','the night: inertia after manifestation','What have you named that you have not yet done?']];
+const ex=x=>{const i=x[0]-1;return (T?`<p class="k">Tarot &amp; body</p><p>${MI[i]} · ${CH[i]}</p>`:'')+(K?`<p class="k">Shadow (kelipah): ${KE[i][0]}</p><p>${KE[i][1]}</p><p class="q">${KE[i][2]}</p><p class="sub">Hermetic Qliphoth names, held loosely. Not a diagnosis. What is the tikkun, in your own words?</p>`:'')};
+function stopAnim(){clearInterval(tm);tm=null;trail=[];lit=[];document.getElementById('cap').textContent=''}
+function play(o,name,note,dsh){stopAnim();sel=null;dash=dsh;let i=0;tm=setInterval(()=>{if(i>=o.length){clearInterval(tm);tm=null;return}lit=o.slice(0,i+1);trail=lit.slice();draw();document.getElementById('cap').textContent=name+' · step '+(i+1)+' of 10: '+s(o[i])[1];document.getElementById('d').innerHTML=`<h2>${name}</h2><p>Step ${i+1} of 10: ${s(o[i])[1]}</p><p class="sub">${note}</p><p class="q">Which step do you feel in your body, and which do you only know?</p>`;i++},800)}
+const POL=[0,3,-3,3,-3,0,2,-2,0,0];let BV;try{BV=JSON.parse(localStorage.getItem('sk_bal'))}catch(e){}if(!BV||BV.length!=10)BV=Array(10).fill(5);
+function upd(){let E=0,C=0;BV.forEach((v,i)=>{if(POL[i]>0)E+=v*POL[i];if(POL[i]<0)C-=v*POL[i]});const n=E-C;document.getElementById('br').innerHTML=`Expansion ${E} · Contraction ${C}<br>`+(Math.abs(n)<=6?'Roughly level. One reading: the pillars are in conversation. Another: everything sits mid-range because nothing has been asked of it.':n>0?'Tilting toward expansion. One reading: a season of opening. Another: Binah, Gevurah, Hod are under-asked.':'Tilting toward contraction. One reading: a season of discipline. Another: Chokmah, Chesed, Netzach are going unfed.')+'<br><i>A tilt is not a problem. Which reading rings false?</i>';try{localStorage.setItem('sk_bal',JSON.stringify(BV))}catch(e){}}
+function bal(){const b=document.getElementById('b'),bt=document.getElementById('bB');if(b.innerHTML){b.innerHTML='';bt.className='';return}bt.className='on';
+b.innerHTML='<h2 style="margin:0;font-size:18px;font-weight:400">Balance mirror</h2><p class="sub">Set how strongly each sphere is active for you (0–10). This is your own mirror, kept on this device: not a mood score, not a verdict. Polarity in brackets.</p>'+S.map((x,i)=>`<div class="row"><span>${x[1]} (${POL[i]>0?'+':''}${POL[i]})</span><input type="range" min="0" max="10" value="${BV[i]}" data-i="${i}"></div>`).join('')+'<p id="br"></p>';
+b.querySelectorAll('input').forEach(r=>r.oninput=()=>{BV[r.dataset.i]=+r.value;upd()});upd();b.scrollIntoView&&b.scrollIntoView({behavior:'smooth',block:'nearest'})}
+const tg=(id,f)=>document.getElementById(id).onclick=f;
+tg('bT',e=>{T=!T;e.target.className=T?'on':'';draw();if(sel)show(sel)});
+tg('bK',e=>{K=!K;e.target.className=K?'on':'';draw();if(sel)show(sel)});
+tg('bL',()=>play([1,2,3,4,5,6,7,8,9,10],'Lightning Bolt','Traditional descent: Keter to Malkuth, zigzagging across the pillars.',''));
+tg('bU',()=>play([1,4,7,10,3,6,9,2,5,8],'Meru Torus Winding','The same ten, visited in Meru\'s winding order: every third sphere, wrapping around. The dashed line jumps across the tree, not along its paths.','6 4'));
+tg('bB',bal);
+draw();
+</script></body></html>
